@@ -1,4 +1,4 @@
-name: Build and Deploy SQL Server Database
+name: Integration SQL Server Database
 
 on:
   push:
@@ -17,6 +17,7 @@ jobs:
     #     connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
     #     path: './TimeTac.Database/TimeTac.Database.sqlproj'
     #     action: 'publish'
-      run: |
+    - name: Build and Deploy SQL Server Database
+    - run: |
         msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
         sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:MyDatabase /tu:myuser /tp:mypassword /sf:./MyDatabase/bin/Release/MyDatabase.dacpac
