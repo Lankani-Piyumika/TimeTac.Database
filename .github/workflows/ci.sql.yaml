@@ -1,4 +1,4 @@
-name: .NET Core Desktop
+name: Build and Deploy SQL Server Database
 
 on:
   push:
@@ -11,9 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: azure/sql-action@v2.2
-      with:   
-        server-name: ${{ secrets.SERVER_NAME }}    
-        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-        path: './TimeTac.Database/TimeTac.Database.sqlproj'
-        action: 'publish'
+    # - uses: azure/sql-action@v2.2
+    #   with:   
+    #     server-name: ${{ secrets.SERVER_NAME }}    
+    #     connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+    #     path: './TimeTac.Database/TimeTac.Database.sqlproj'
+    #     action: 'publish'
+      run: |
+        msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
+        sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:MyDatabase /tu:myuser /tp:mypassword /sf:./MyDatabase/bin/Release/MyDatabase.dacpac
