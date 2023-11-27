@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TimeTac.Database", "TimeTac.Database.sqlproj", "{C8A8CB72-91AB-4D43-94E8-30A7A1D3995D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8A8CB72-91AB-4D43-94E8-30A7A1D3995D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8A8CB72-91AB-4D43-94E8-30A7A1D3995D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8A8CB72-91AB-4D43-94E8-30A7A1D3995D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C8A8CB72-91AB-4D43-94E8-30A7A1D3995D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8A8CB72-91AB-4D43-94E8-30A7A1D3995D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8A8CB72-91AB-4D43-94E8-30A7A1D3995D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA805A4C-9CAF-474E-B2BB-3D7FAC198FD8}
+	EndGlobalSection
+EndGlobal
