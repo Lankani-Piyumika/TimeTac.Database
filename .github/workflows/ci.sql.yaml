@@ -7,38 +7,12 @@ on:
     branches: ["main"]
 
 jobs:
-  Build:
-    stage: DatabaseBuild
-    tags:
-      - sql
-    script:
-      - $projectPath = $env:CI_PROJECT_DIR
-      - $project = "$projectPath\TimeTac.Database\TimeTac.Database.sqlproj"
-      - echo "Building project $project"
-      - $validatedProject = $project | Invoke-DatabaseBuild -TemporaryDatabaseServer "Data Source=(localDb)\MSSQLLocalDB\"
-      - $buildArtifact = $validatedProject | New-DatabaseBuildArtifact -PackageId TimeTac.Database -PackageVersion 1.$env:CI_PIPELINE_ID
-      - echo "Exporting artifact to $env:CI_PROJECT_DIR\Export"
-      - $buildArtifact | Export-DatabaseBuildArtifact -Path "$env:CI_PROJECT_DIR\Export"
-    artifacts:
-      paths:
-        - $env:CI_PROJECT_DIR\Export\TimeTac.Database.1.$env:CI_PIPELINE_ID.nupkg
-      expire_in: 1 week
-
-  CreateRelease:
-    stage: CreateRelease
-    tags:
-      - sql
-    script:
-      - $integrationDB = New-DatabaseConnection -ServerInstance "(localDb)\MSSQLLocalDB\" -Database "TimeTac_Integration"
-      - $buildArtifact = "$env:CI_PROJECT_DIR\Export\TimeTac.Database.1.$env:CI_PIPELINE_ID.nupkg"
-      - $releaseArtifact = New-DatabaseReleaseArtifact -Source $buildArtifact -Target $integrationDB
-      - $releaseArtifact | Export-DatabaseReleaseArtifact -Path "C:\DatabaseDeploymentResources\DoggosAreCuteInc\ReleaseArtifacts\$env:CI_PIPELINE_ID\Integration" -Format Folder
-
-  Integration:
-    stage: DeployToIntegration
-    tags:
-      - sql
-    script:
-      - $integrationDB = New-DatabaseConnection -ServerInstance "(localDb)\MSSQLLocalDB\" -Database "TimeTac_Integration"
-      - echo "Deploying changes to Integration"
-      - Import-DatabaseReleaseArtifact -Path "C:\DatabaseDeploymentResources\DoggosAreCuteInc\ReleaseArtifacts\$env:CI_PIPELINE_ID\Integration" | Use-DatabaseReleaseArtifact -DeployTo $integrationDB
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: azure/sql-action@v2.2
+      with:        
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        path: './TimeTac.Database/TimeTac.Database.sqlproj'
+        action: 'publish'
