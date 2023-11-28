@@ -10,14 +10,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Build and Deploy SQL Server Database
-      uses: actions/checkout@v3
-    # - uses: azure/sql-action@v2.2
-    #   with:   
-    #     server-name: ${{ secrets.SERVER_NAME }}    
-    #     connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-    #     path: './TimeTac.Database/TimeTac.Database.sqlproj'
-    #     action: 'publish'
-    - run: |
-        msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
-        sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:MyDatabase /tu:myuser /tp:mypassword /sf:./MyDatabase/bin/Release/MyDatabase.dacpac
+      - uses: actions/checkout@v2
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Build with MSBuild
+        run: |
+          msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
+      - name: Publish to SQL Server
+        run: |
+          sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Build and Deploy SQL Server Database
+#       uses: actions/checkout@v3
+#     # - uses: azure/sql-action@v2.2
+#     #   with:   
+#     #     server-name: ${{ secrets.SERVER_NAME }}    
+#     #     connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+#     #     path: './TimeTac.Database/TimeTac.Database.sqlproj'
+#     #     action: 'publish'
+#     - run: |
+#         msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
+#         sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:MyDatabase /tu:myuser /tp:mypassword /sf:./MyDatabase/bin/Release/MyDatabase.dacpac
