@@ -1,10 +1,10 @@
-# name: Integration SQL Server Database
+name: Integration SQL Server Database
 
-# on:
-#   push:
-#     branches: ["main"]
-#   pull_request:
-#     branches: ["main"]
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 # jobs:
 #   build:
