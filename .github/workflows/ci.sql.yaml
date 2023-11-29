@@ -93,21 +93,14 @@ on:
     branches: ["main"]
 
 jobs:
-
-  Build:
-    runs-on: 'windows-2019'
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-vSbuild@1
-        with:
-          solution: '$(System.DefaultWorkingDirectory)/TimeTac.Database/TimeTac.Database.sln'
-          configuration: release
-
-      - uses: actions/setup-copyfiles@2
-        with:
-          SourceFolder: '$(System.DefaultWorkingDirectory)/TimeTac.Database'
-          TargetFolder: ' $(build.artifactstagingdirectory)'
-
-      - uses: actions/PublishBuildArtifacts@1
-        with:
-          ArtifactName: dacpac
+    - uses: actions/checkout@v3
+    - uses: azure/sql-action@v2.2
+      with:        
+        connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        path: './TimeTac.Database.sqlproj'
+        action: 'publish'
+        build-arguments: '-c Release'                
+        arguments: '/p:DropObjectsNotInSource=true'   
