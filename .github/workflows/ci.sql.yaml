@@ -84,7 +84,6 @@
 #     ArtifactName: 'drop'
 #     publishLocation: 'Container'
 
-
 name: Integration SQL Server Database
 
 on:
@@ -93,38 +92,23 @@ on:
   pull_request:
     branches: ["main"]
 
-trigger: none
-
-variables:
-  vmImageName: 'windows-2019'
-  workingDirectory: '$(System.DefaultWorkingDirectory)/TimeTac.Database'
-
-stages:
-  - stage: Build
-    displayName: Build stage
-
 jobs:
-
-  Build:
+  build:
     displayName: Build
     pool:
       vmImage: $(vmImageName)
-
     steps:
     - task: VSBuild@1
       displayName: 'Build solution'
       inputs:
         solution: $(workingDirectory)/TimeTac.Database.sln
         configuration: release
-
     - task: CopyFiles@2
       displayName: 'Copy Files to:  $(build.artifactstagingdirectory)'
       inputs:
         SourceFolder: '$(workingDirectory)'
         TargetFolder: ' $(build.artifactstagingdirectory)'
-
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: dacpac'
       inputs:
         ArtifactName: dacpac
-
