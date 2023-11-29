@@ -94,13 +94,17 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - uses: azure/sql-action@v2.2
       with:        
         connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-        path: './TimeTac.Database/TimeTac.Database.dacpac'
+        server-name: ${{ secrets.SERVER_NAME }} 
+        path: './TimeTac.Database/TimeTac.Database.sqlproj'
         action: 'publish'
         build-arguments: '-c Release'                
         arguments: '/p:DropObjectsNotInSource=true'   
+    - run: |
+      msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
+      sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
