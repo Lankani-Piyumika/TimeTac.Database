@@ -100,10 +100,10 @@ variables:
   workingDirectory: '$(System.DefaultWorkingDirectory)/TimeTac.Database'
 
 stages:
-- stage: Build
-  displayName: Build stage
+  - stage: Build
+    displayName: Build stage
 
-  jobs:
+jobs:
 
   - job: Build
     displayName: Build
