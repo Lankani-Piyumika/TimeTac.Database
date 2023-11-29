@@ -99,17 +99,17 @@ variables:
 jobs:
 
   Build:
-    runs-on: $(vmImageName)
+    runs-on: 'windows-2019'
 
     steps:
       - uses: actions/setup-vSbuild@1
         with:
-          solution: $(workingDirectory)/TimeTac.Database.sln
+          solution: '$(System.DefaultWorkingDirectory)/TimeTac.Database/TimeTac.Database.sln'
           configuration: release
 
       - uses: actions/setup-copyfiles@2
         with:
-          SourceFolder: '$(workingDirectory)'
+          SourceFolder: '$(System.DefaultWorkingDirectory)/TimeTac.Database'
           TargetFolder: ' $(build.artifactstagingdirectory)'
 
       - uses: actions/PublishBuildArtifacts@1
