@@ -92,10 +92,6 @@ on:
   pull_request:
     branches: ["main"]
 
-variables:
-  vmImageName: 'windows-2019'
-  workingDirectory: '$(System.DefaultWorkingDirectory)/TimeTac.Database'
-
 jobs:
 
   Build:
