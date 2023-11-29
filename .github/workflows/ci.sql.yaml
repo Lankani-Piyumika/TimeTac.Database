@@ -106,5 +106,5 @@ jobs:
         build-arguments: '-c Release'                
         arguments: '/p:DropObjectsNotInSource=true'   
     - run: |
-      msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
-      sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
+        msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
+        sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
