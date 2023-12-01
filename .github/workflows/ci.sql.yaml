@@ -98,6 +98,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: azure/sql-action@v2.2
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
       with:        
         connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
         server-name: ${{ secrets.SERVER_NAME }} 
