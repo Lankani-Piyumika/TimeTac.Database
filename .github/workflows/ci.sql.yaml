@@ -149,6 +149,10 @@ jobs:
     #     working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
     steps:
     - uses: actions/checkout@v2
+    - name: Change directory
+      run: |
+        Set-Location F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database
+        msbuild /t:Build /p:SqlPublishProfilePath=TimeTac_1.Database.publish.xml
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
