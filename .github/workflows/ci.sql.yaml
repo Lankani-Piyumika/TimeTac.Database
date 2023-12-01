@@ -122,12 +122,12 @@ jobs:
     - name: Build solution
       run: msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
     - name: Azure sql actions
-    - uses: azure/sql-action@v2.2
-      with:   
-        server-name: (localDb)\MSSQLLocalDB  
-        connection-string: Server=localhost\SQLEXPRESS01;Database=master;Trusted_Connection=True
-        path: './TimeTac.Database/TimeTac.Database.sqlproj'
-        action: 'publish'
+      uses: azure/sql-action@v2.2
+        with:   
+          server-name: (localDb)\MSSQLLocalDB  
+          connection-string: Server=localhost\SQLEXPRESS01;Database=master;Trusted_Connection=True
+          path: './TimeTac.Database/TimeTac.Database.sqlproj'
+          action: 'publish'
     - name: Publish to MSBuild SSMS
       # run: sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
       run: sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
