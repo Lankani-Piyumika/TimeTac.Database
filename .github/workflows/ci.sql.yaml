@@ -145,10 +145,10 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Set Path
+      run: cd F:\Mine\TimeTac\TimeTac.Database
     - name: Setup .NET Core
-      uses: | 
-        cd F:\Mine\TimeTac\TimeTac.Database
-        actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '7.0.x'
     # - name: Set Path
