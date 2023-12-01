@@ -142,21 +142,16 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set Path
-      run: cd F:\Mine\TimeTac\TimeTac.Database
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '7.0.x'
-    # - name: Set Path
-    #   run: cd F:\Mine\TimeTac\TimeTac.Database
-      # run:
-      #   Set-Location F:\Mine\TimeTac\TimeTac.Database
     - name: Build with dotnet
       run:  |
+        cd F:\Mine\TimeTac\TimeTac.Database
         dotnet build --configuration Release
     - name: Publish to SQL Server
       uses: Azure/sql-action@v1.0.0
