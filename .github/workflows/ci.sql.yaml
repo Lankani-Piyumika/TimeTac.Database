@@ -84,13 +84,13 @@
 #     ArtifactName: 'drop'
 #     publishLocation: 'Container'
 
-# name: Integration SQL Server Database
+name: Integration SQL Server Database
 
-# on:
-#   push:
-#     branches: ["main"]
-#   pull_request:
-#     branches: ["main"]
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 # jobs:
 #   build:
@@ -111,11 +111,6 @@
 #     - run: |
 #         msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
 #         sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
-name: Build and deploy to MSBuild SSMS
-
-on:
-  push:
-    branches: [ main ]
 
 jobs:
   build:
