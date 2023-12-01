@@ -143,17 +143,14 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    # defaults:
-    #   run:
-    #     shell: pwsh
-    #     working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
     steps:
     - uses: actions/checkout@v2
     - name: Change directory
-      run: 
-        msbuild /t:Build /p:SqlPublishProfilePath=TimeTac_1.Database.publish.xml
-        shell: pwsh
-        working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\ 
+      run: msbuild /t:Build /p:SqlPublishProfilePath=TimeTac_1.Database.publish.xml
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
