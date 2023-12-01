@@ -92,8 +92,6 @@ on:
   pull_request:
     branches: ["main"]
 
-trigger: main
-
 # jobs:
 #   build:
 #     runs-on: self-hosted
