@@ -146,7 +146,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Change directory
-      run: Set-Location F:\Mine\TimeTac\TimeTac.Database
+      run:  |
+        psexec -s -i powershell
+        Set-Location F:\Mine\TimeTac\TimeTac.Database
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
