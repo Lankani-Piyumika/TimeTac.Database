@@ -122,4 +122,5 @@ jobs:
     - name: Build solution
       run: msbuild /t:Build /p:Configuration=Release ./TimeTac.Database/TimeTac.Database.sqlproj
     - name: Publish to MSBuild SSMS
-      run: sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
+      run: powershell -Command "Invoke-Sqlcmd -ServerInstance (localDb)\MSSQLLocalDB -Database TimeTac -Username myuser -Password mypassword -InputFile ./TimeTac/bin/Release/TimeTac.sql"
+      # run: sqlpackage.exe /a:Publish /tsn:(localDb)\MSSQLLocalDB /tdn:TimeTac /tu:myuser /tp:mypassword /sf:./TimeTac/bin/Release/TimeTac.dacpac
