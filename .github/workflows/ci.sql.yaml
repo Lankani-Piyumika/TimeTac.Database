@@ -150,7 +150,9 @@ jobs:
       with:
         dotnet-version: '7.0.x'
     - name: Set Path
-      run: cd F:\Mine\TimeTac\TimeTac.Database
+      # run: cd F:\Mine\TimeTac\TimeTac.Database
+      with:
+        Set-Location: F:\Mine\TimeTac\TimeTac.Database
     - name: Build with dotnet
       run:  |
         dotnet build --configuration Release
