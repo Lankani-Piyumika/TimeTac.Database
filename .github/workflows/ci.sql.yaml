@@ -160,4 +160,6 @@ jobs:
     - name: Publish to MSBuild SSMS
       run: | 
         msbuild /t:Build;Publish /p:SqlPublishProfilePath="${working-directory}\TimeTac_1.Database.publish.xml" /p:Publish_TargetConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TimeTac;Integrated Security=True" "${working-directory}\TimeTac.Database.sqlproj"
+        cd ~\TimeTac.Database\TimeTac.Database\
+        pwsh
     
