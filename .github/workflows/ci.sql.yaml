@@ -143,10 +143,10 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: pwsh
-        working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
+    # defaults:
+    #   run:
+    #     shell: pwsh
+    #     working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -154,8 +154,10 @@ jobs:
       with:
         dotnet-version: '7.0.x'
     - name: Build with dotnet
-      run: dotnet build --configuration Release
-      # working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
+      run: |
+        shell: pwsh
+        dotnet build --configuration Release
+      working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
     - name: Publish to SQL Server
       uses: Azure/sql-action@v1.0.0
       with:
