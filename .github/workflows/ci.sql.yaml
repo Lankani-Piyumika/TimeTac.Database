@@ -143,12 +143,12 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./TimeTac.Database/TimeTac.Database
     steps:
     - uses: actions/checkout@v2
-    - name: Change directory
-      shell: bash
-      working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database
-      run: echo $PATH
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
