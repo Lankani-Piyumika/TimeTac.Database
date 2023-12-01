@@ -152,7 +152,7 @@ jobs:
     - name: Set Path
       # run: cd F:\Mine\TimeTac\TimeTac.Database
       run:
-        Set-Location cd F:\Mine\TimeTac\TimeTac.Database
+        Set-Location F:\Mine\TimeTac\TimeTac.Database
     - name: Build with dotnet
       run:  |
         dotnet build --configuration Release
