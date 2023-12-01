@@ -146,7 +146,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./TimeTac.Database/TimeTac.Database
+        working-directory: D:\a\TimeTac.Database\TimeTac.Database\
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
