@@ -150,11 +150,10 @@ jobs:
     defaults:
       run:
         shell: pwsh
-        working-directory: ~\TimeTac.Database\TimeTac.Database\
+        working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
     steps:
     - uses: actions/checkout@v2
     - name: Change directory
-      working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
       run: cd F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -163,5 +162,5 @@ jobs:
     - name: Publish to MSBuild SSMS
       run: | 
         msbuild /t:Build;Publish /p:SqlPublishProfilePath="./TimeTac_1.Database.publish.xml" /p:Publish_TargetConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TimeTac;Integrated Security=True" "./TimeTac.Database.sqlproj"
-      working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
+      
     
