@@ -161,5 +161,5 @@ jobs:
       uses: Azure/sql-action@v1.0.0
       with:
         server-name: (localDb)\MSSQLLocalDB  
-        connection-string: Server=(localDb)\MSSQLLocalDB;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Connect Timeout=60;Encrypt=False;Trust Server Certificate=False;Command Timeout=0
+        connection-string: Server=localhost\SQLEXPRESS01;Database=TimeTac;User Id=myuser;Password=mypassword;
         dacpac-package: ./bin/Release/TimeTac.Database.dacpac
