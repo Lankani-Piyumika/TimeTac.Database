@@ -154,7 +154,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Change directory
-      working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database
+      working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
+      run: cd F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
