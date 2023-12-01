@@ -151,7 +151,7 @@ jobs:
         dotnet-version: '7.0.x'
     - name: Build with dotnet
       run:  |
-        cd /d F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database
+        cd ./TimeTac.Database/TimeTac.Database
         dotnet build --configuration Release
     - name: Publish to SQL Server
       uses: Azure/sql-action@v1.0.0
