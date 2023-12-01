@@ -146,6 +146,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Change directory
+      shell: bash
+      run: echo $PATH
       working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
