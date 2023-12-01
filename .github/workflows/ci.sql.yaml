@@ -146,11 +146,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: | 
+        cd F:\Mine\TimeTac\TimeTac.Database
+        actions/setup-dotnet@v1
       with:
         dotnet-version: '7.0.x'
-    - name: Set Path
-      run: cd F:\Mine\TimeTac\TimeTac.Database
+    # - name: Set Path
+    #   run: cd F:\Mine\TimeTac\TimeTac.Database
       # run:
       #   Set-Location F:\Mine\TimeTac\TimeTac.Database
     - name: Build with dotnet
