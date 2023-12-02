@@ -186,12 +186,13 @@ jobs:
       # create dacpac using MSBUILD
       - name: Build Database project
         run: |
+          dotnet build
           msbuild.exe TimeTac.Database.sqlproj /p:Configuration=Release
       # Publish artifact
       - uses: actions/upload-artifact@v3.1.2
         with:
           name: AzureSQLDB
-          path: ${{ github.workspace }}\bin\Release\
+          path: ${{ github.workspace }}\bin\Debug\
 
     # Deploy dacpac job
   DeployDacpac:
