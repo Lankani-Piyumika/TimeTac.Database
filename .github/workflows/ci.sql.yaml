@@ -210,21 +210,25 @@ jobs:
         # with:
         #   name: AzureSQLDB
           
-      # Login using Azure credentials 
-      # Required to add a temporary firewall rule for the runner
-      - uses: azure/login@v1.4.6
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # # Login using Azure credentials 
+      # # Required to add a temporary firewall rule for the runner
+      # - uses: azure/login@v1.4.6
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-      # Installs dacpac
-      # For this to work you have a secret specified, default in my repo is blank
-      # Requires a secret AZURESQLDB_CONNECTION_STRING which contains connection string to your Azure SQL Database
-      - name: Azure SQL Deploy
-        uses: Azure/sql-action@v2
-        with:
-          # The connection string, including authentication information, for the Azure SQL Database.
-          connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
-          # Path to the dacpac file in the artifact
-          path: './AzureSQLDB.dacpac'
-          # Action we want it to do, in this case 'Publish' the contents of the dacpac to the database
-          action: 'publish'
+      # # Installs dacpac
+      # # For this to work you have a secret specified, default in my repo is blank
+      # # Requires a secret AZURESQLDB_CONNECTION_STRING which contains connection string to your Azure SQL Database
+      # - name: Azure SQL Deploy
+      #   uses: Azure/sql-action@v2
+      #   with:
+      #     # The connection string, including authentication information, for the Azure SQL Database.
+      #     connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
+      #     # Path to the dacpac file in the artifact
+      #     path: './AzureSQLDB.dacpac'
+      #     # Action we want it to do, in this case 'Publish' the contents of the dacpac to the database
+      #     action: 'publish'
+
+    - name: Publish to MSBuild SSMS
+      run: | 
+        msbuild /t:Build;Publish /p:SqlPublishProfilePath="${{ github.workspace }}/TimeTac_1.Database.publish.xml" /p:Publish_TargetConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TimeTac;Integrated Security=True" "${{ github.workspace }}/TimeTac.Database.sqlproj"
