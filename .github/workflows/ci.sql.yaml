@@ -207,8 +207,8 @@ jobs:
       - name: download artifact containing dacpac
         # Downloads Data artifact to dacpac folder
         uses: actions/download-artifact@v3.0.2
-        with:
-          name: AzureSQLDB
+        # with:
+        #   name: AzureSQLDB
           
       # Login using Azure credentials 
       # Required to add a temporary firewall rule for the runner
