@@ -1,0 +1,6 @@
+F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\bin\Debug\TimeTac.Database.dacpac
+F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\bin\Debug\TimeTac.Database.dll
+F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\bin\Debug\TimeTac.Database.pdb
+F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\obj\Debug\TimeTac.Database.sqlproj.AssemblyReference.cache
+F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\obj\Debug\TimeTac.Database.dll
+F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\obj\Debug\TimeTac.Database.pdb

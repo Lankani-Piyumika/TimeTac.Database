@@ -1,44 +1,90 @@
-name: .NET Core Desktop
+name: Integration SQL Server Database
 
 on:
   push:
-    branches: ["main"]
+    branches: [ main ]
   pull_request:
-    branches: ["main"]
+    branches: [ main ]
+
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
-  Build:
-    stage: DatabaseBuild
-    tags:
-      - sql
-    script:
-      - $projectPath = $env:CI_PROJECT_DIR
-      - $project = "$projectPath\TimeTac.Database\TimeTac.Database.sqlproj"
-      - echo "Building project $project"
-      - $validatedProject = $project | Invoke-DatabaseBuild -TemporaryDatabaseServer "Data Source=(localDb)\MSSQLLocalDB\"
-      - $buildArtifact = $validatedProject | New-DatabaseBuildArtifact -PackageId TimeTac.Database -PackageVersion 1.$env:CI_PIPELINE_ID
-      - echo "Exporting artifact to $env:CI_PROJECT_DIR\Export"
-      - $buildArtifact | Export-DatabaseBuildArtifact -Path "$env:CI_PROJECT_DIR\Export"
-    artifacts:
-      paths:
-        - $env:CI_PROJECT_DIR\Export\TimeTac.Database.1.$env:CI_PIPELINE_ID.nupkg
-      expire_in: 1 week
 
-  CreateRelease:
-    stage: CreateRelease
-    tags:
-      - sql
-    script:
-      - $integrationDB = New-DatabaseConnection -ServerInstance "(localDb)\MSSQLLocalDB\" -Database "TimeTac_Integration"
-      - $buildArtifact = "$env:CI_PROJECT_DIR\Export\TimeTac.Database.1.$env:CI_PIPELINE_ID.nupkg"
-      - $releaseArtifact = New-DatabaseReleaseArtifact -Source $buildArtifact -Target $integrationDB
-      - $releaseArtifact | Export-DatabaseReleaseArtifact -Path "C:\DatabaseDeploymentResources\DoggosAreCuteInc\ReleaseArtifacts\$env:CI_PIPELINE_ID\Integration" -Format Folder
+  # Job to build and publish the dacpac
+  BuildDacpac:
+    # Easier to use Github-hosted runner if updating in GitHub
+    # windows-2019 image works better at the moment
+    runs-on: windows-2019
 
-  Integration:
-    stage: DeployToIntegration
-    tags:
-      - sql
-    script:
-      - $integrationDB = New-DatabaseConnection -ServerInstance "(localDb)\MSSQLLocalDB\" -Database "TimeTac_Integration"
-      - echo "Deploying changes to Integration"
-      - Import-DatabaseReleaseArtifact -Path "C:\DatabaseDeploymentResources\DoggosAreCuteInc\ReleaseArtifacts\$env:CI_PIPELINE_ID\Integration" | Use-DatabaseReleaseArtifact -DeployTo $integrationDB
+    defaults:
+      run:
+        working-directory: ./TimeTac.Database
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3.3.0
+      # Find msbuild
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.3.1
+      # create dacpac using MSBUILD
+      - name: Build Database project
+        run: |
+          dotnet build
+          msbuild.exe TimeTac.Database.sqlproj /p:Configuration=Release
+      # Publish artifact
+      - uses: actions/upload-artifact@v3.1.2
+        with:
+          name: AzureSQLDB
+          path: TimeTac.Database/bin/Debug
+
+  #   # Deploy dacpac job
+  # DeployDacpac:
+  #   # Set the dependency for the build job
+  #   needs: BuildDacpac
+  #   # Easier to use Github-hosted runner if updating in GitHub
+  #   runs-on: windows-latest
+
+  #   defaults:
+  #     run:
+  #       working-directory: ./TimeTac.Database
+
+  #   # Steps to deploy the updates to Azure SQL Database
+  #   # To keep this example simple, the Firewall settings in the logical SQL Server allows access from Azure services and resources
+  #   # An alternative is to use the Azure Login GitHub Action https://github.com/marketplace/actions/azure-login
+  #   steps:
+  #     - name: download artifact containing dacpac
+  #       # Downloads Data artifact to dacpac folder
+  #       uses: actions/download-artifact@v3.0.2
+  #       with:
+  #         name: AzureSQLDB
+  #         if-no-files-found: error
+
+  #     - name: Azure SQL Deploy
+  #       uses: Azure/sql-action@v1.3
+  #       with:
+  #         # The logical SQL Server name
+  #         server-name: '${{ secrets.SERVER_NAME }}'
+  #         connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
+  #         # Name of the dacpac file in the artifact
+  #         dacpac-package: 'TimeTac.Database.dacpac'
+          
+      # # Login using Azure credentials 
+      # # Required to add a temporary firewall rule for the runner
+      # - uses: azure/login@v1.4.6
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      # # Installs dacpac
+      # # For this to work you have a secret specified, default in my repo is blank
+      # # Requires a secret AZURESQLDB_CONNECTION_STRING which contains connection string to your Azure SQL Database
+      # - name: Azure SQL Deploy
+      #   uses: Azure/sql-action@v2
+      #   with:
+      #     # The connection string, including authentication information, for the Azure SQL Database.
+      #     connection-string: '${{ secrets.AZURE_SQL_CONNECTION_STRING }}'
+      #     # Path to the dacpac file in the artifact
+      #     path: './AzureSQLDB.dacpac'
+      #     # Action we want it to do, in this case 'Publish' the contents of the dacpac to the database
+      #     action: 'publish'
