@@ -174,7 +174,7 @@ jobs:
     defaults:
       run:
         shell: pwsh
-        working-directory: F:\Mine\TimeTac\TimeTac.Database\TimeTac.Database\
+        working-directory: ${{ github.workspace }}/TimeTac.Database/
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
