@@ -174,7 +174,7 @@ jobs:
     defaults:
       run:
         shell: pwsh
-        working-directory: ${{ github.workspace }}/TimeTac.Database/
+        working-directory: ${{ github.workspace }}\TimeTac.Database\
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -191,7 +191,7 @@ jobs:
       - uses: actions/upload-artifact@v3.1.2
         with:
           name: AzureSQLDB
-          path: ${{ github.workspace }}/bin/Release/   
+          path: ${{ github.workspace }}\bin\Release\
 
     # Deploy dacpac job
   DeployDacpac:
@@ -207,8 +207,8 @@ jobs:
       - name: download artifact containing dacpac
         # Downloads Data artifact to dacpac folder
         uses: actions/download-artifact@v3.0.2
-        # with:
-        #   name: AzureSQLDB
+        with:
+          name: AzureSQLDB
 
       - name: Azure SQL Deploy
         uses: Azure/sql-action@v1.3
